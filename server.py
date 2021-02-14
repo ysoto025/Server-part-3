@@ -28,15 +28,14 @@ if (int(argv[1]) < 0) | (int(argv[1]) > 65535):
 con = []
 sock.bind(('0.0.0.0', int(argv[1])))
 sock.listen(1)
-var = 1
+
 file_list = []
 
 
 def connector(d, e):
     global con
-
     word = 'accio\r\n'
-    global var
+    var = 1
     global file_list
     file_not_open = True
     try:
@@ -44,6 +43,7 @@ def connector(d, e):
             if file_not_open:
                 filename = str(argv[2]) + str(var) + ".file"
                 stored_file = open(filename, "wb")
+                var = var + 1
                 file_not_open = False
 
             d.send(bytes(word.encode()))
@@ -52,7 +52,7 @@ def connector(d, e):
 
             if not data:
                 file_not_open = True
-                var = var + 1
+
                 stored_file.close()
                 file_list.append(stored_file)
                 con.remove(d)
@@ -64,7 +64,7 @@ def connector(d, e):
         stored_file.write(bytes("ERROR: timeout"))
         stored_file.close()
         file_not_open = True
-        #file_list.append(stored_file)
+        file_list.append(stored_file)
         con.remove(d)
         d.close()
 
