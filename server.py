@@ -59,9 +59,12 @@ def connector(d, e):
                 d.close()
                 break
     except socket.timeout:
+        stored_file.seek(0)
+        stored_file.truncate()
         stored_file.write(bytes("ERROR: timeout"))
         stored_file.close()
-        file_list.append(stored_file)
+        file_not_open = True
+        #file_list.append(stored_file)
         con.remove(d)
         d.close()
 
