@@ -28,14 +28,13 @@ if (int(argv[1]) < 0) | (int(argv[1]) > 65535):
 con = []
 sock.bind(('0.0.0.0', int(argv[1])))
 sock.listen(1)
-data = ''
 var = 1
 file_list = []
 
 
 def connector(d, e):
     global con
-    global data
+
     word = 'accio\r\n'
     global var
     global file_list
@@ -73,7 +72,6 @@ try:
         cThread = threading.Thread(target=connector, args=(x, v))
         cThread.daemon = True
         cThread.start()
-        file_list.append(storedfile)
         con.append(x)
         print(var)
 
