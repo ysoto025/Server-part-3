@@ -58,6 +58,7 @@ try:
         cThread.start()
         con.append(x)
         print(con)
+
 except socket.timeout:
     sys.stderr.write("ERROR: timeout")
     sys.exit(1)
