@@ -29,6 +29,7 @@ sock.bind(('0.0.0.0', int(argv[1])))
 sock.listen(1)
 data = ''
 var = 0
+file_list = []
 
 
 def connector(d, e):
@@ -62,8 +63,7 @@ try:
         cThread = threading.Thread(target=connector, args=(x, v))
         cThread.daemon = True
         cThread.start()
-        print(len(data))
-        data = ""
+        file_list.append(data)
         con.append(x)
         print(var)
 
