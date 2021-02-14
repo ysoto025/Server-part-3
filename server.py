@@ -60,7 +60,8 @@ def connector(d, e):
                 break
     except socket.timeout:
         stored_file.write(bytes("ERROR: timeout"))
-        sock.close()
+        file_list.append(stored_file)
+
 
 
 def signal_handler(sig, frame):
@@ -68,9 +69,7 @@ def signal_handler(sig, frame):
     sys.exit(0)
 
 
-try:
-
-    while True:
+while True:
         x, v = sock.accept()
         signal.signal(signal.SIGINT, signal_handler)
         cThread = threading.Thread(target=connector, args=(x, v))
@@ -79,7 +78,5 @@ try:
         con.append(x)
         print(var)
 
-except socket.timeout:
-    sys.stderr.write("ERROR: timeout")
-    sys.exit(1)
+
 
