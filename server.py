@@ -28,14 +28,15 @@ if (int(argv[1]) < 0) | (int(argv[1]) > 65535):
 con = []
 sock.bind(('0.0.0.0', int(argv[1])))
 sock.listen(1)
-
+var = 1
 file_list = []
 
 
 def connector(d, e):
     global con
+
     word = 'accio\r\n'
-    var = 1
+    global var
     global file_list
     file_not_open = True
     try:
