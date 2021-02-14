@@ -29,9 +29,8 @@ con = []
 sock.bind(('0.0.0.0', int(argv[1])))
 sock.listen(1)
 data = ''
-var = 0
+var = 1
 file_list = []
-stroredFile
 
 
 def connector(d, e):
@@ -39,23 +38,23 @@ def connector(d, e):
     global data
     word = 'accio\r\n'
     global var
-    var = 1
-    global storedfile
+    global file_list
     file_not_open = True
     while True:
         if file_not_open:
             filename = str(argv[2]) + str(var) + ".file"
-            storedfile.open(filename, "wb")
+            stored_file = open(filename, "wb")
             file_not_open = False
 
         d.send(bytes(word.encode()))
         data = d.recv(1).decode("utf-8")
+        stored_file.write(data)
 
         if not data:
             file_not_open = True
             var = var + 1
-            storedfile.write(data)
-            storedfile.close()
+            stored_file.close()
+            file_list.append(stored_file)
             con.remove(d)
             d.close()
             break
