@@ -39,24 +39,28 @@ def connector(d, e):
     global var
     global file_list
     file_not_open = True
-    while True:
-        if file_not_open:
-            filename = str(argv[2]) + str(var) + ".file"
-            stored_file = open(filename, "wb")
-            file_not_open = False
+    try:
+        while True:
+            if file_not_open:
+                filename = str(argv[2]) + str(var) + ".file"
+                stored_file = open(filename, "wb")
+                file_not_open = False
 
-        d.send(bytes(word.encode()))
-        data = d.recv(1).decode("utf-8")
-        stored_file.write(data)
+            d.send(bytes(word.encode()))
+            data = d.recv(1).decode("utf-8")
+            stored_file.write(data)
 
-        if not data:
-            file_not_open = True
-            var = var + 1
-            stored_file.close()
-            file_list.append(stored_file)
-            con.remove(d)
-            d.close()
-            break
+            if not data:
+                file_not_open = True
+                var = var + 1
+                stored_file.close()
+                file_list.append(stored_file)
+                con.remove(d)
+                d.close()
+                break
+    except socket.timeout:
+        sys.stderr.write("ERROR: timeout")
+        sock.close()
 
 
 def signal_handler(sig, frame):
