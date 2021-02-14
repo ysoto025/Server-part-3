@@ -3,6 +3,7 @@ import socket
 from sys import argv
 import threading
 import signal
+import os.path
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -30,6 +31,7 @@ sock.listen(1)
 data = ''
 var = 0
 file_list = []
+stroredFile
 
 
 def connector(d, e):
@@ -37,14 +39,23 @@ def connector(d, e):
     global data
     word = 'accio\r\n'
     global var
-    var = 0
+    var = 1
+    global storedfile
+    file_not_open = True
     while True:
+        if file_not_open:
+            filename = str(argv[2]) + str(var) + ".file"
+            storedfile.open(filename, "wb")
+            file_not_open = False
 
         d.send(bytes(word.encode()))
         data = d.recv(1).decode("utf-8")
-        var = var + 1
 
         if not data:
+            file_not_open = True
+            var = var + 1
+            storedfile.write(data)
+            storedfile.close
             con.remove(d)
             d.close()
             break
@@ -63,7 +74,7 @@ try:
         cThread = threading.Thread(target=connector, args=(x, v))
         cThread.daemon = True
         cThread.start()
-        file_list.append(data)
+        file_list.append(storedfile)
         con.append(x)
         print(var)
 
