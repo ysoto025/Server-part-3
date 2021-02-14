@@ -55,7 +55,7 @@ def connector(d, e):
             file_not_open = True
             var = var + 1
             storedfile.write(data)
-            storedfile.close
+            storedfile.close()
             con.remove(d)
             d.close()
             break
