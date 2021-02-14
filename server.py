@@ -59,7 +59,7 @@ def connector(d, e):
                 d.close()
                 break
     except socket.timeout:
-        sys.stderr.write("ERROR: timeout")
+        stored_file.write(bytes("ERROR: timeout"))
         sock.close()
 
 
